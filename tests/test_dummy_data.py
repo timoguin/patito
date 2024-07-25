@@ -183,3 +183,38 @@ def test_nested_models() -> None:
 
     example_model = ParentModel.example()
     ParentModel.examples()
+
+def test_nested_models_with_alias_generator() -> None:
+    """It should be possible to create nested models."""
+ 
+    from pydantic import AliasGenerator, ConfigDict
+    from pydantic.alias_generators import to_camel, to_snake
+
+    class BaseModel(pt.Model):
+        model_config = ConfigDict(
+            alias_generator=AliasGenerator(
+                validation_alias=to_camel,
+                serialization_alias=to_snake,
+            ),
+            populate_by_name=True,
+            from_attributes=True,
+            validate_default=True,
+            revalidate_instances="subclass-instances",
+        )
+
+    class NestedModel(BaseModel):
+        nested_field: int
+
+    class ParentModel1(BaseModel):
+        parent_field: int
+        nested_model: NestedModel
+
+    breakpoint()
+
+    example_model = ParentModel1.example()
+    example_df = ParentModel1.examples()
+    assert isinstance(example_model.nested_model, NestedModel)
+    assert example_model.nested_model.nested_field is not None
+
+    example_df = ParentModel1.examples()
+    assert isinstance(example_df, pl.DataFrame)

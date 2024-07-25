@@ -42,6 +42,7 @@ def default_dtypes_for_model(
     cls: Type[ModelType],
 ) -> dict[str, DataType]:
     default_dtypes: dict[str, DataType] = {}
+    # breakpoint()
     for column in cls.columns:
         dtype = (
             cls.column_infos[column].dtype

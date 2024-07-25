@@ -26,7 +26,8 @@ def schema_for_model(cls: Type[ModelType]) -> Dict[str, Dict[str, Any]]:
             different types.
 
     """
-    schema = cls.model_json_schema(by_alias=False, ref_template="{model}")
+    # breakpoint()
+    schema = cls.model_json_schema(by_alias=False, ref_template="{model}", mode='serialization')
     fields = {}
     # first resolve definitions for nested models TODO checks for one-way references, if models are self-referencing this falls apart with recursion depth error
     for f in cls.model_fields.values():

@@ -405,7 +405,7 @@ def _find_enum_errors(
                 return _find_enum_errors(
                     df,
                     column_name,
-                    schema.model_json_schema()["$defs"][item["$ref"]],
+                    schema.model_json_schema(mode="serialization")["$defs"][item["$ref"]],
                     schema,
                 )
         return None

@@ -346,7 +346,7 @@ class DataFrame(pl.DataFrame, Generic[ModelType]):
 
         """
         new_class = type(
-            f"{model.model_json_schema()['title']}DataFrame",
+            f"{model.model_json_schema(mode="serialization")['title']}DataFrame",
             (cls,),
             {"model": model},
         )
